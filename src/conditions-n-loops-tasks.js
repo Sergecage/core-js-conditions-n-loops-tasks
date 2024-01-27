@@ -457,7 +457,7 @@ function shuffleChar(str, iterations) {
   for (let i = 0; i < iterations; i += 1) {
     let oddChar = '';
     let evenChar = '';
-    for (let j = 0; j < shuffledChar.length; j += 2) {
+    for (let j = 1; j < shuffledChar.length; j += 2) {
       evenChar += shuffledChar[j - 1];
       oddChar += shuffledChar[j];
     }
