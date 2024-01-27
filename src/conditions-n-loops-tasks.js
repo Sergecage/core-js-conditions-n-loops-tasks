@@ -331,6 +331,7 @@ function getSpiralMatrix(size) {
   for (let i = 0; i < size; i += 1) {
     spiralMatrix[i] = [];
   }
+
   let [startRow, endRow] = [0, size];
   let [startColumn, endColumn] = [0, size];
   while (startRow < endRow && startColumn < endColumn) {
@@ -342,7 +343,7 @@ function getSpiralMatrix(size) {
 
     for (let i = startColumn; i < endColumn; i += 1) {
       counter += 1;
-      spiralMatrix[i][startRow - 1] = counter;
+      spiralMatrix[i][endRow - 1] = counter;
     }
     endRow -= 1;
 
@@ -378,24 +379,23 @@ function getSpiralMatrix(size) {
  */
 function rotateMatrix(matrix) {
   const rotatedMatrix = [...matrix];
-  let startRow = 0;
-  let endRow = rotatedMatrix.length - 1;
-  while (startRow < endRow) {
-    for (let i = 0; i < endRow - startRow; i += 1) {
-      const startColumn = startRow;
-      const endColumn = endRow;
-      const leftRow = rotatedMatrix[startColumn][startRow + i];
-      rotatedMatrix[startColumn][startRow + i] =
-        rotatedMatrix[endColumn][endRow - i];
-      rotatedMatrix[endColumn - i][startRow] =
-        rotatedMatrix[endColumn][endRow - i];
-      rotatedMatrix[endColumn][endRow - i] =
-        rotatedMatrix[startColumn + i][endRow];
-      rotatedMatrix[startColumn + i][endRow] = leftRow;
-    }
-    startRow += 1;
-    endRow -= 1;
+  const testMatrix = [];
+
+  for (let i = 0; i < rotatedMatrix.length; i += 1) {
+    testMatrix[i] = [];
   }
+  for (let i = rotatedMatrix[0].length - 1; i >= 0; i -= 1) {
+    for (let j = 0; j < rotatedMatrix.length; j += 1) {
+      testMatrix[j][rotatedMatrix.length - 1 - i] = rotatedMatrix[i][j];
+    }
+  }
+
+  for (let i = 0; i < matrix.length; i += 1) {
+    for (let j = 0; j < matrix[0].length; j += 1) {
+      rotatedMatrix[i][j] = testMatrix[i][j];
+    }
+  }
+  return rotatedMatrix;
 }
 
 /**
@@ -457,13 +457,9 @@ function shuffleChar(str, iterations) {
   for (let i = 0; i < iterations; i += 1) {
     let oddChar = '';
     let evenChar = '';
-
-    for (let j = 0; j < shuffledChar.length; j += 1) {
-      if (j % 2 === 0) {
-        evenChar += shuffledChar[j];
-      } else {
-        oddChar += shuffledChar[j];
-      }
+    for (let j = 0; j < shuffledChar.length; j += 2) {
+      evenChar += shuffledChar[j - 1];
+      oddChar += shuffledChar[j];
     }
     shuffledChar = evenChar + oddChar;
   }
